@@ -1,71 +1,50 @@
 import React from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, IconButton } from '@mui/material';
-import { Home, Work, Assignment, Menu } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-
-const drawerWidth = 240;
+import { AppBar, Toolbar, Typography, IconButton, Switch, Box } from '@mui/material';
+import { Home, Assignment, List } from '@mui/icons-material';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-
-    const drawer = (
-        <div>
-            <Toolbar />
-            <List>
-                <ListItem button component={Link} to="/">
-                    <ListItemIcon><Home /></ListItemIcon>
-                    <ListItemText primary="Home" />
-                </ListItem>
-                <ListItem button component={Link} to="/projects">
-                    <ListItemIcon><Work /></ListItemIcon>
-                    <ListItemText primary="Projects" />
-                </ListItem>
-                <ListItem button component={Link} to="/tasks">
-                    <ListItemIcon><Assignment /></ListItemIcon>
-                    <ListItemText primary="Tasks" />
-                </ListItem>
-            </List>
-        </div>
-    );
+    const { mode, toggleTheme } = useTheme();
 
     return (
-        <>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ display: { sm: 'none' } }}
-            >
-                <Menu />
-            </IconButton>
-            <Drawer
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{ keepMounted: true }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-            >
-                {drawer}
-            </Drawer>
-            <Drawer
-                variant="permanent"
-                sx={{
-                    display: { xs: 'none', sm: 'block' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                open
-            >
-                {drawer}
-            </Drawer>
-        </>
+        <AppBar position="static" sx={{ width: '240px', height: '100vh', backgroundColor: mode === 'dark' ? 'grey.900' : 'grey.100' }}>
+            <Toolbar sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+                <Typography variant="h6" noWrap component="div" sx={{ my: 2, color: mode === 'dark' ? '#fff' : '#000' }}>
+                    Project Tool
+                </Typography>
+                <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Link to="/" style={{ color: mode === 'dark' ? '#fff' : '#000', textDecoration: 'none', marginTop: '20px' }}>
+                        <IconButton color="inherit">
+                            <Home />
+                        </IconButton>
+                        <Typography variant="subtitle1" noWrap>
+                            Home
+                        </Typography>
+                    </Link>
+                    <Link to="/projects" style={{ color: mode === 'dark' ? '#fff' : '#000', textDecoration: 'none', marginTop: '20px' }}>
+                        <IconButton color="inherit">
+                            <Assignment />
+                        </IconButton>
+                        <Typography variant="subtitle1" noWrap>
+                            Projects
+                        </Typography>
+                    </Link>
+                    <Link to="/tasks" style={{ color: mode === 'dark' ? '#fff' : '#000', textDecoration: 'none', marginTop: '20px' }}>
+                        <IconButton color="inherit">
+                            <List />
+                        </IconButton>
+                        <Typography variant="subtitle1" noWrap>
+                            Tasks
+                        </Typography>
+                    </Link>
+                </Box>
+                <Switch checked={mode === 'dark'} onChange={toggleTheme} sx={{ mt: 'auto', mb: 2 }} />
+                <Typography variant="body2" color="textSecondary" sx={{ color: mode === 'dark' ? '#fff' : '#000' }}>
+                    {mode === 'light' ? 'Light Mode' : 'Dark Mode'}
+                </Typography>
+            </Toolbar>
+        </AppBar>
     );
 };
 

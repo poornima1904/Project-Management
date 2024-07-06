@@ -9,11 +9,11 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createTheme, ThemeProvider as StyledThemeProvider } from '@mui/material/styles';
 
 const Root = () => {
-    const { darkMode } = useTheme();
+    const { mode } = useTheme();
 
     const theme = createTheme({
         palette: {
-            mode: darkMode ? 'dark' : 'light',
+            mode: mode,
             primary: {
                 main: '#007bff',
             },

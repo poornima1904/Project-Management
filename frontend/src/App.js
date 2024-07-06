@@ -5,36 +5,29 @@ import Projects from './pages/Projects';
 import Tasks from './pages/Tasks';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Home from './pages/Home';
 import { UserProvider, UserContext } from './context/UserContext';
-import ThemeSwitcher from './components/ThemeSwitcher';
-import { Box, Container } from '@mui/material';
+import { ThemeProvider } from './context/ThemeContext';
 
 const App = () => {
     return (
         <UserProvider>
-            <Router>
-                <Box sx={{ display: 'flex' }}>
-                    <Navbar />
-                    <Box
-                        component="main"
-                        sx={{
-                            flexGrow: 1,
-                            p: 3,
-                            width: { sm: `calc(100% - 240px)` },
-                            marginLeft: { sm: '240px' }
-                        }}
-                    >
-                        <ThemeSwitcher />
-                        <Routes>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/projects" element={<PrivateRoute component={Projects} />} />
-                            <Route path="/tasks" element={<PrivateRoute component={Tasks} />} />
-                            <Route path="/" element={<Navigate to="/projects" />} />
-                        </Routes>
-                    </Box>
-                </Box>
-            </Router>
+            <ThemeProvider>
+                <Router>
+                    <div style={{ display: 'flex' }}>
+                        <Navbar />
+                        <div style={{ flexGrow: 1, padding: '20px' }}>
+                            <Routes>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/projects" element={<PrivateRoute component={Projects} />} />
+                                <Route path="/tasks" element={<PrivateRoute component={Tasks} />} />
+                                <Route path="/" element={<Home />} />
+                            </Routes>
+                        </div>
+                    </div>
+                </Router>
+            </ThemeProvider>
         </UserProvider>
     );
 };
